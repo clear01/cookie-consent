@@ -1,0 +1,18 @@
+{
+	"name": "clear01/cookie-consent",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Clear 01 Development s.r.o.",
+			"email": "martin@clear01.com"
+		}
+	],
+	"autoload": {
+        "psr-4": {"Clear01\\CookieConsent\\": "src/"}
+	},
+	"require": {
+		"php": ">= 7.1",
+		"nette/di": "^2.4",
+		"nette/application": "^2.4"
+	}
+}

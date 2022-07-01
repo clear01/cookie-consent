@@ -4,9 +4,13 @@ declare(strict_types = 1);
 namespace Clear01\CookieConsent\DI;
 
 use Clear01\CookieConsent\Control\CokieConsent\ICookieConsentControlFactory;
+use Clear01\CookieConsent\Subscriber\CookieConsentSubscriber;
+use Kdyby\Doctrine\DI\IEntityProvider;
+use Kdyby\Events\DI\EventsExtension;
 use Nette\DI\CompilerExtension;
+use Zenify\DoctrineMigrations\IMigrationsProvider;
 
-class CookieConsentExtension extends CompilerExtension
+class CookieConsentExtension extends CompilerExtension implements IMigrationsProvider, IEntityProvider
 {
 	/** @var array|object */
 	protected $defaults = [
@@ -26,9 +30,25 @@ class CookieConsentExtension extends CompilerExtension
 		$config = $this->getConfig($this->defaults);
 
 		$builder->addDefinition($this->prefix('cookieConsentControl'))->setImplement(ICookieConsentControlFactory::class)->setArguments([$config]);
-
+		$builder->addDefinition($this->prefix('cookieConsentSubscriber'))->setFactory(CookieConsentSubscriber::class)->addTag(EventsExtension::TAG_SUBSCRIBER);
 	}
 
+	public function getMigrationsDir(): string
+	{
+		return __DIR__ . '/../../migrations';
+	}
+
+	/**
+	 * Returns associative array of Namespace => mapping definition
+	 *
+	 * @return array
+	 */
+	public function getEntityMappings(): array
+	{
+		return [
+			'Clear01\CookieConsent' => dirname(__DIR__),
+		];
+	}
 
 	
 }

@@ -1,0 +1,13 @@
+<script>
+    // Define dataLayer and the gtag function.
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments);}
+
+    // Default ad_storage to 'denied' as a placeholder
+    // Determine actual values based on your own requirements
+    gtag('consent', 'default', {
+        'ad_storage': {$consents['targeting'] ? 'granted' : 'denied'},
+        'analytics_storage': {$consents['tracking'] ? 'granted' : 'denied'},
+        'personalization_storage': {$consents['functionality'] ? 'granted' : 'denied'}
+    });
+</script>

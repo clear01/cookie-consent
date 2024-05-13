@@ -6,7 +6,7 @@
             "consent_type": {$config["consent_type"]},
             "palette": {$config["palette"]},
             "language": {$config["language"]},
-			"cookie_duration": 30,
+            "cookie_duration": 30,
             "page_load_consent_levels": {$config["page_load_consent_levels"]},
             "notice_banner_reject_button_hide": {$config["notice_banner_reject_button_hide"]},
             "preferences_center_close_button_hide": {$config["preferences_center_close_button_hide"]},
@@ -15,7 +15,10 @@
             "callbacks": {
                 "user_consent_saved": (level) => {
                     window.dataLayer = window.dataLayer || [];
-                    function gtag(){ dataLayer.push(arguments);}
+
+                    function gtag() {
+                        dataLayer.push(arguments);
+                    }
 
                     gtag('consent', 'update', {
                         'ad_storage': level.targeting ? 'granted' : 'denied',
@@ -24,33 +27,14 @@
                         'analytics_storage': level.tracking ? 'granted' : 'denied',
                         'personalization_storage': level.functionality ? 'granted' : 'denied'
                     });
+
+
+					dataLayer.push({
+						event: "consentUpdate"
+					});
                 }
             },
             "callbacks_force": true
         });
     });
-</script>
-
-<script type="text/plain" data-cookie-consent="tracking">
-var dataLayer = window.dataLayer || [];
-dataLayer.push({
-  event:"addConsent",
-  consentType:"tracking"
-});
-</script>
-
-<script type="text/plain" data-cookie-consent="functionality">
-var dataLayer = window.dataLayer || [];
-dataLayer.push({
-  event:"addConsent",
-  consentType:"functionality"
-});
-</script>
-
-<script type="text/plain" data-cookie-consent="targeting">
-var dataLayer = window.dataLayer || [];
-dataLayer.push({
-  event:"addConsent",
-  consentType:"targeting"
-});
 </script>

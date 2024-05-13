@@ -29,9 +29,28 @@
                     });
 
 
-					dataLayer.push({
-						event: "consentUpdate"
-					});
+                    dataLayer.push({
+                        event: "consentUpdate"
+                    });
+                    if (level.functionality) {
+                        dataLayer.push({
+                            event: "addConsent",
+                            consentType: "functionality"
+                        });
+                    }
+                    if (level.tracking) {
+                        dataLayer.push({
+                            event: "addConsent",
+                            consentType: "tracking"
+                        });
+                    }
+
+                    if (level.targeting) {
+                        dataLayer.push({
+                            event: "addConsent",
+                            consentType: "targeting"
+                        });
+                    }
                 }
             },
             "callbacks_force": true

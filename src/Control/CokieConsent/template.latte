@@ -11,7 +11,22 @@
             "notice_banner_reject_button_hide": {$config["notice_banner_reject_button_hide"]},
             "preferences_center_close_button_hide": {$config["preferences_center_close_button_hide"]},
             "website_name": {$config["website_name"]},
-            "website_privacy_policy_url": {$config["website_privacy_policy_url"]}
+            "website_privacy_policy_url": {$config["website_privacy_policy_url"]},
+            "callbacks": {
+                "user_consent_saved": (level) => {
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){ dataLayer.push(arguments);}
+
+                    gtag('consent', 'update', {
+                        'ad_storage': level.targeting ? 'granted' : 'denied',
+                        'ad_user_data': level.targeting ? 'granted' : 'denied',
+                        'ad_personalization': level.targeting ? 'granted' : 'denied',
+                        'analytics_storage': level.tracking ? 'granted' : 'denied',
+                        'personalization_storage': level.functionality ? 'granted' : 'denied'
+                    });
+                }
+            },
+            "callbacks_force": true
         });
     });
 </script>

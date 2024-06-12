@@ -6,7 +6,6 @@
             "consent_type": {$config["consent_type"]},
             "palette": {$config["palette"]},
             "language": {$config["language"]},
-            "cookie_duration": 30,
             "page_load_consent_levels": {$config["page_load_consent_levels"]},
             "notice_banner_reject_button_hide": {$config["notice_banner_reject_button_hide"]},
             "preferences_center_close_button_hide": {$config["preferences_center_close_button_hide"]},
@@ -28,6 +27,13 @@
                         'personalization_storage': level.functionality ? 'granted' : 'denied'
                     });
 
+						if (!level.targeting || !level.tracking) {
+                            {if $config["reload_on_denied_days"]}
+							document.cookie = "cookie_consent_reload" + '=' + '{? echo (new DateTime('+'.$config["reload_on_denied_days"].' days'))->format('Y-m-d H:i:s')}' + '; path=/';
+                            {/if}
+                        } else {
+                            document.cookie = 'cookie_consent_reload=; Max-Age=0; path=/';
+						}
 
                     dataLayer.push({
                         event: "consentUpdate"

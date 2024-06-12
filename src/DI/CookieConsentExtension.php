@@ -17,6 +17,7 @@ class CookieConsentExtension extends CompilerExtension implements IMigrationsPro
 		"notice_banner_type" => "simple",
         "consent_type" => "express",
         "palette" => "light",
+        "reload_on_denied_days" => null,
         "language" => "cs",
         "page_load_consent_levels" => ["strictly-necessary"],
         "notice_banner_reject_button_hide" => false,

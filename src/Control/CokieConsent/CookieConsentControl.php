@@ -3,10 +3,10 @@ declare(strict_types = 1);
 
 namespace Clear01\CookieConsent\Control\CokieConsent;
 
-use HttpRequest;
+use DateTime;
 use Nette\Application\UI\Control;
-use Nette\Diagnostics\Debugger;
 use Nette\Http\Request;
+use Nette\Http\Response;
 use Nette\Utils\Json;
 use Throwable;
 
@@ -18,12 +18,28 @@ class CookieConsentControl extends Control
 	/** @var Request */
 	private $request;
 
+	/** @var Response */
+	private $response;
 
-	public function __construct(array $config, Request $request)
+
+	public function __construct(array $config, Request $request, Response $response)
 	{
 		parent::__construct();
 		$this->config = $config;
 		$this->request = $request;
+		$this->response = $response;
+		$this->onAnchor[] = function () {
+			$consentReload = $this->request->getCookie('cookie_consent_reload');
+			if ($consentReload) {
+				$reloadAt = new DateTime($consentReload);
+				if ($reloadAt < new DateTime()) {
+					$this->response->deleteCookie("cookie_consent_level");
+					$this->response->deleteCookie("cookie_consent_user_accepted");
+					$this->response->deleteCookie("cookie_consent_user_consent_token");
+					$this->response->deleteCookie("cookie_consent_reload");
+				}
+			}
+		};
 	}
 
 

@@ -29,7 +29,7 @@
 
 						if (!level.targeting || !level.tracking) {
                             {if $config["reload_on_denied_days"]}
-							document.cookie = "cookie_consent_reload" + '=' + '{? echo (new DateTime('+'.$config["reload_on_denied_days"].' days'))->format('Y-m-d H:i:s')}' + '; path=/';
+							document.cookie = "cookie_consent_reload" + '=' + '{php echo (new DateTime('+'.$config["reload_on_denied_days"].' days'))->format('Y-m-d H:i:s')}' + '; path=/';
                             {/if}
                         } else {
                             document.cookie = 'cookie_consent_reload=; Max-Age=0; path=/';

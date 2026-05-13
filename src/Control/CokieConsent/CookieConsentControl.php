@@ -24,7 +24,6 @@ class CookieConsentControl extends Control
 
 	public function __construct(array $config, Request $request, Response $response)
 	{
-		parent::__construct();
 		$this->config = $config;
 		$this->request = $request;
 		$this->response = $response;

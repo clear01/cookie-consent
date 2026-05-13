@@ -4,33 +4,24 @@ declare(strict_types = 1);
 namespace Clear01\CookieConsent\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
+use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
-/**
- * @ORM\Entity()
- */
-class CookieConsent
+#[ORM\Entity]
+class CookieConsent implements TimestampableInterface
 {
-	use Timestampable;
+	use TimestampableTrait;
 
-	/**
-	 * @ORM\Id
-	 * @ORM\Column(type="string", unique=true)
-	 * @var string
-	 */
-	private $id;
+	#[ORM\Id]
+	#[ORM\Column(type: 'string', unique: true)]
+	private string $id;
 
-	/**
-	 * @var string
-	 * @ORM\Column(type="string")
-	 */
-	protected $ip;
+	#[ORM\Column(type: 'string')]
+	protected string $ip;
 
-	/**
-	 * @var array
-	 * @ORM\Column(type="array")
-	 */
-	protected $consents;
+	#[ORM\Column(type: 'array')]
+	protected array $consents;
 
 
 	public function __construct(string $id, string $ip, array $consents)

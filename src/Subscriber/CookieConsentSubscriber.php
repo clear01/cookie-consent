@@ -4,20 +4,20 @@ declare(strict_types = 1);
 namespace Clear01\CookieConsent\Subscriber;
 
 use Clear01\CookieConsent\Entity\CookieConsent;
+use Contributte\Events\Extra\Event\Application\RequestEvent;
 use DateTime;
-use Kdyby\Doctrine\EntityManager;
-use Kdyby\Events\Subscriber;
-use Nette\Application\Application;
+use Doctrine\ORM\EntityManagerInterface;
 use Nette\Http\IRequest;
 use Nette\Http\IResponse;
 use Nette\Utils\Json;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Throwable;
 use Tracy\Debugger;
 
-class CookieConsentSubscriber implements Subscriber
+class CookieConsentSubscriber implements EventSubscriberInterface
 {
 
-	/** @var \Kdyby\Doctrine\EntityManager */
+	/** @var EntityManagerInterface */
 	private $em;
 
 	/** @var IResponse */
@@ -26,7 +26,7 @@ class CookieConsentSubscriber implements Subscriber
 	/** @var IRequest */
 	private $request;
 
-	public function __construct(EntityManager $em, IRequest $request, IResponse $response)
+	public function __construct(EntityManagerInterface $em, IRequest $request, IResponse $response)
 	{
 		$this->em = $em;
 		$this->response = $response;
@@ -35,7 +35,7 @@ class CookieConsentSubscriber implements Subscriber
 
 
 
-	public function onRequest()
+	public function onRequest(RequestEvent $event)
 	{
 		try {
 			$token = $this->request->getCookie('cookie_consent_user_consent_token');
@@ -47,15 +47,15 @@ class CookieConsentSubscriber implements Subscriber
 					$this->em->persist($cokieConsent);
 					$this->em->flush();
 				}
-				$this->response->setCookie('cookie_consent_saved', true, new DateTime('+ 1 year'));
+				$this->response->setCookie('cookie_consent_saved', 'true', new DateTime('+ 1 year'));
 			}
 		} catch (Throwable $e) {
 			Debugger::log($e);
 		}
 	}
 
-	public function getSubscribedEvents(): array
+	public static function getSubscribedEvents(): array
 	{
-		return [Application::class . "::onRequest"];
+		return [RequestEvent::class => 'onRequest'];
 	}
 }

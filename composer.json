@@ -11,8 +11,20 @@
         "psr-4": {"Clear01\\CookieConsent\\": "src/"}
 	},
 	"require": {
-		"php": ">= 7.1",
-		"nette/di": "^2.4",
-		"nette/application": "^2.4"
-	}
+		"php": ">= 8.4",
+		"nette/di": "^3.2",
+		"nette/application": "^3.2",
+		"tracy/tracy": "^2.0",
+		"knplabs/doctrine-behaviors": "dev-master as 3.0.0",
+		"nettrine/migrations": "^0.10.0",
+		"nettrine/orm": "^0.9",
+		"symfony/event-dispatcher": "^6.4.3 || ^7.0.3 || ^8.0.0",
+		"contributte/event-dispatcher-extra": "^0.11.0@dev"
+	},
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/clear01/KnpDoctrineBehaviors.git"
+		}
+	]
 }
